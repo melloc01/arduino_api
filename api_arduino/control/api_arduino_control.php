@@ -11,8 +11,7 @@
 
 		public function home()
 		{
-
-				$this->render(ROOT."api_arduino/view/home.php", get_defined_vars());
+			$this->render(ROOT."api_arduino/view/home.php", get_defined_vars());
 		}
 
 		public function create()
@@ -25,9 +24,9 @@
 					'dado' => $dado,
 					'id_arduino' => $id_arduino
 				);		
-				if ($this->Model->insert($insert_array)){
+				if ($this->Model->insert($insert_array))
 					echo "Success !";
-				} else
+				else
 					echo "Failure";
 
 			} else
@@ -35,23 +34,35 @@
 
 		}
 
-		public function view()
+		public function readArduino()
 		{
 			$id_arduino = $this->getActionValue();
 			$_search_array = array(
 				'id_arduino' => array('operator' => '=', 'value' => "$id_arduino"),
 			);
-			$dados = $this->Model->getRegisters();
+			$dados = $this->Model->getRegisters($_search_array);
+			foreach ($dados as $key => $dado) {
+				echo "{$dado['sensores']}{$dado['controle']}{$dado['id_interruptor']}$";
+			}
+		}
 
-			foreach ($dados as $key => $dado) 
-				echo "{$dado['dado']}$";
-			
+		public function updateSensor()
+		{
+			//updateSensor/id_arduino/id_interruptor/valor_sensores
+			$params = $this->httpRequest->getParameters();
+			$id_arduino = $this->getActionValue();
+
+			$id_interruptor = key($params);
+			$update_array = array(
+				'sensores' => $params[$id_interruptor]
+			);
+		
+			echo $this->Model->update($id_interruptor,$update_array,'id_interruptor') ?  "1" :  "0";
 		}
 
 		public function html_list()
 		{
 			$dados = $this->Model->getRegisters();
-
 			$this->renderPure(ROOT.'api_arduino/view/html_list.php',get_defined_vars());
 		}
 

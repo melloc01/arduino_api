@@ -412,7 +412,6 @@ public function update($id,$array_update,$search_key = 'id')
 	//delete last comas
 	$sql_statement = substr($sql_statement, 0, -1);
 	$sql_statement .= " WHERE $search_key = '$id' ";
-	echo "$sql_statement";
 	return $this->runPDOQuery($sql_statement,$param_array);
 }
 
