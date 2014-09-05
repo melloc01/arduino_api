@@ -10,6 +10,8 @@
 <br>
 <br>
 <br>
+<div class="container">
+	
 <div class="row ">
 	<div class="col-sm-4 col-sm-offset-4">
 		<?php $this->printMessage(); ?>
@@ -49,5 +51,7 @@
 		</form>
 	</div>
 </div>
+</div>
+
 </body>
 </html>
