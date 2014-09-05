@@ -11,7 +11,22 @@
 
 		public function home()
 		{
+			$registro = $this->Model->getRegistro('11110000','id_arduino', 'and id_interruptor = "1101" ');
 			$this->render(ROOT."api_arduino/view/home.php", get_defined_vars());
+		}
+
+		public function toggleInterruptor()
+		{
+			//updateSensor/id_arduino/id_interruptor/valor_sensores
+			$update_array = array(
+				'controle' => $_POST['controle']
+			);
+			$sql = "UPDATE  api_arduino set controle = '{$_POST['controle']}' where id_arduino='11110000' and id_interruptor='1101' ";
+			if ($this->Model->runQuery($sql))
+				$_SESSION['system_success'] = "O interruptor foi atualizado com o valor <strong>{$_POST['controle']}</strong>";
+			else 
+				$_SESSION['system_danger'] = "Houve um erro ao atualizar o valor do interruptor.";
+			$this->movePermanently('/api_arduino');
 		}
 
 		public function create()
@@ -56,7 +71,7 @@
 			$update_array = array(
 				'sensores' => $params[$id_interruptor]
 			);
-		
+
 			echo $this->Model->update($id_interruptor,$update_array,'id_interruptor') ?  "1" :  "0";
 		}
 
