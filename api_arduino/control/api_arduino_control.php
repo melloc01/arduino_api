@@ -66,13 +66,18 @@
 			//updateSensor/id_arduino/id_interruptor/valor_sensores
 			$params = $this->httpRequest->getParameters();
 			$id_arduino = $this->getActionValue();
-
 			$id_interruptor = key($params);
+
+			$interruptor = $this->Model->getRegistro($id_interruptor,'id_interruptor', "AND id_interruptor = '$id_interruptor' ");
+
 			$update_array = array(
-				'sensores' => $params[$id_interruptor]
+				'controle' => ! $interruptor['controle']
 			);
 
-			echo $this->Model->update($id_interruptor,$update_array,'id_interruptor') ?  "1" :  "0";
+			$this->Model->update($id_interruptor,$update_array,'id_interruptor') ?  "1" :  "0";
+
+			$interruptor = $this->Model->getRegistro($id_interruptor,'id_interruptor', "AND id_interruptor = '$id_interruptor' ");
+			echo (int) $interruptor['controle'];
 		}
 
 		public function html_list()
