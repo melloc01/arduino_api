@@ -64,6 +64,22 @@
 		public function updateSensor()
 		{
 			//updateSensor/id_arduino/id_interruptor/valor_sensores
+
+ 			$params = $this->httpRequest->getParameters();		 		
+ 			$id_arduino = $this->getActionValue();		 			
+		
+ 			$id_interruptor = key($params);		 			
+
+ 			$update_array = array(		 			
+				'sensores' => $params[$id_interruptor]	
+ 			);		 	
+ 		 
+			echo $this->Model->update($id_interruptor,$update_array,'id_interruptor') ?  "1" :  "0";
+		}
+
+		public function updateControl()
+		{
+			//updateSensor/id_arduino/id_interruptor/valor_sensores
 			$params = $this->httpRequest->getParameters();
 			$id_arduino = $this->getActionValue();
 			$id_interruptor = key($params);
